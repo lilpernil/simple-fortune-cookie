@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: backend
 spec:
-  replicas: 3
+  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -16,6 +16,13 @@ spec:
       labels:
         run: backend
     spec:
+      initContainers:
+        - name: wait-for-redis
+          image: busybox
+          command: ['sh', '-c', sleep 10]
       containers:
       - name: backend
         image: ghcr.io/lilpernil/go-app:latest
+        env:
+          - name: REDIS_DNS
+            value: redis
