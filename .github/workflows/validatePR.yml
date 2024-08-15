@@ -27,7 +27,7 @@ jobs:
 
   Build-Docker-Scan-Trivy:
     runs-on: ubuntu-latest
-    needs: Build
+    needs: [Build]
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
@@ -39,9 +39,6 @@ jobs:
         run: |
           bash ci/build-docker-frontend.sh
           bash ci/build-docker-backend.sh
-
-      - name: List images
-        run: docker images
 
       - name: Run Trivy - Frontend
         uses: aquasecurity/trivy-action@0.20.0
@@ -65,7 +62,7 @@ jobs:
 
   Test:
     runs-on: ubuntu-latest
-    needs: Build
+    needs: [Build]
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
