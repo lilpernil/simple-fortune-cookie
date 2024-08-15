@@ -16,3 +16,14 @@ jobs:
         with:
           name: go-app
           path: .
+  Test:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    steps:
+    - name: download Repo
+      uses: actions/download-artifact@v4
+      with:
+        name: go-app
+        path: .
+    - name: Run Test
+      run: ci/frontend-unittest.sh
