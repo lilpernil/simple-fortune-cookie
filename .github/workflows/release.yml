@@ -23,6 +23,9 @@ jobs:
           path: .
   Publish-Docker:
     runs-on: ubuntu-latest
+    needs: [Build]
+    permissions:
+      packages: write
     steps:
       - name: download Repo
         uses: actions/download-artifact@v4
