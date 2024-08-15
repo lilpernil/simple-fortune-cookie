@@ -10,7 +10,9 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v4
       - name: Build
-        run: ci/build-app.sh
+        run: |
+          chmod +x ci/build-app.sh
+          ci/build-app.sh
       - name: Upload Repo
         uses: actions/upload-artifact@v4
         with:
@@ -26,4 +28,6 @@ jobs:
         name: go-app
         path: .
     - name: Run Test
-      run: ci/frontend-unittest.sh
+      run: |
+          chmod +x ci/frontend-unittest.sh
+          ci/frontend-unittest.sh
