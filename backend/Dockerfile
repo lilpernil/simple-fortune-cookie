@@ -1,7 +1,11 @@
-FROM golang:1.20
-
+FROM golang:1.20 as builder
 WORKDIR /app
+COPY . /app
+RUN go mod download && go mod verify \
+    && cd /app \
+    && go build -o goapp
 
-COPY . .
-
-CMD ["go", "run", "backend"]
+FROM scratch
+WORKDIR /app
+COPY --from=builder /app/goapp /app/
+ENTRYPOINT ["./goapp"]
