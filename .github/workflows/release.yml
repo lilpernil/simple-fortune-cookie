@@ -1,0 +1,46 @@
+name: Release Workflow
+on:
+  push:
+    branches:
+      - main
+env:
+  docker_username: ${{ github.actor }} 
+  docker_password: ${{ secrets.GITHUB_TOKEN }}
+  registry_name: lilpernil
+  GIT_COMMIT: ${{ github.sha }}
+jobs: 
+  Build: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+      - name: Build
+        run: bash ci/build-app.sh
+      - name: Upload Repo
+        uses: actions/upload-artifact@v4
+        with:
+          name: go-app
+          path: .
+  Publish-Docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: download Repo
+        uses: actions/download-artifact@v4
+        with:
+          name: go-app
+          path: .
+      - name: ls
+        run: ls -la ci
+      - name: Build Docker - Frontend
+        run: |
+          bash ci/build-docker-frontend.sh
+      - name: Build Docker - Backend
+        run: |
+          bash ci/build-docker-backend.sh
+      - name: Push Docker - Frontend
+        run: bash ci/push-docker-frontend.sh
+      - name: Push Docker - Backend
+        run: bash ci/push-docker-backend.sh
+      
+
+
