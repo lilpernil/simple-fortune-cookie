@@ -4,6 +4,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    ports:
+    - 9000:9000
   
   frontend-service:
     container_name: frontend
@@ -14,3 +16,6 @@ services:
       - 8080:8080
     depends_on:
       - backend-service
+    environment:
+      - BACKEND_DNS=backend-service
+      - BACKEND_PORT=9000
