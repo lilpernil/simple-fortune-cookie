@@ -28,4 +28,6 @@ jobs:
         name: go-app
         path: .
     - name: Run Test
-      run: ci/frontend-unittest.sh
+      run: |
+          chmod +x ci/frontend-unittest.sh
+          ci/frontend-unittest.sh
