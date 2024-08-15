@@ -10,7 +10,9 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v4
       - name: Build
-        run: ci/build-app.sh
+        run: |
+          chmod +x ci/build-app.sh
+          ci/build-app.sh
       - name: Upload Repo
         uses: actions/upload-artifact@v4
         with:
