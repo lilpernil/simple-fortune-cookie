@@ -18,4 +18,4 @@ spec:
     spec:
       containers:
       - name: backend
-        image: ghcr.io/lilpernil/go-app:1.0-b49f87bd
+        image: ghcr.io/lilpernil/go-app:latest
