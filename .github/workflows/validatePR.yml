@@ -72,3 +72,26 @@ jobs:
 
       - name: Run Tests
         run: bash ci/frontend-unittest.sh
+  Availability-Test:
+    runs-on: ubuntu-latest
+    needs: [Test]
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: go-app
+          path: .
+      - name: Startup Application for Test
+        run: bash test/setup.sh
+      - name: Database Availability Test
+        if: always()
+        run: bash test/database-availability-test.sh
+      - name: Backend Availability Test
+        if: always()
+        run: bash test/backend-availability-test.sh
+      - name: Frontend Availability Test
+        if: always()
+        run: bash test/frontend-availability-test.sh
+      - name: Shutdown Application for Test
+        if: always()
+        run: bash test/teardown.sh
