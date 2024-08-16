@@ -5,6 +5,8 @@ on:
     branches:
       - main
 
+permissions: {}
+
 env:
   registry_name: lilpernil 
   GIT_COMMIT: ${{ github.sha }}
@@ -24,6 +26,26 @@ jobs:
         with:
           name: go-app
           path: .
+
+  Lint:
+    name: Lint
+    runs-on: ubuntu:latest
+    needs: [Build]
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+    steps:
+      - name: Check code
+        uses: actions/download-artifact@v4
+        with:
+          name: go-app
+          path: .
+      - name: Super-linter
+        uses: super-linter/super-linter@v7.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE_ERROS: true
 
   Build-Docker-Scan-Trivy:
     runs-on: ubuntu-latest
