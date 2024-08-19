@@ -19,7 +19,7 @@ frontend:
   containerName: frontend
   image: ghcr.io/lilpernil/go-app-ui:latest
   backendDNS: backend-svc
-  backendPort: '9000'
+  backendPort: "9000"
 
 redis:
   name: redis

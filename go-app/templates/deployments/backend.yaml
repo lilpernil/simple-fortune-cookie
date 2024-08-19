@@ -19,10 +19,10 @@ spec:
       initContainers:
         - name: wait-for-redis
           image: busybox
-          command: ['sh', '-c', sleep 10]
+          command: ['sh', '-c', sleep 15]
       containers:
       - name: {{ .Values.backend.containerName }}
         image: {{ .Values.backend.image }}
-        env:
-          - name: REDIS_DNS
-            value: {{ .Values.backend.redisDNS }}
+        envFrom:
+          - configMapRef:
+              name: {{ .Values.backend.name }}-configmap

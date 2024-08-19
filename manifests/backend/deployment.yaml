@@ -19,10 +19,10 @@ spec:
       initContainers:
         - name: wait-for-redis
           image: busybox
-          command: ['sh', '-c', sleep 10]
+          command: ['sh', '-c', sleep 15]
       containers:
       - name: backend
         image: ghcr.io/lilpernil/go-app:latest
-        env:
-          - name: REDIS_DNS
-            value: redis
+        envFrom:
+          - configMapRef:
+              name: backend-configmap
