@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.frontend.name }}-configmap
+data:
+  BACKEND_DNS: {{ .Values.frontend.backendDNS }}
+  BACKEND_PORT: "{{ .Values.frontend.backendPort }}"

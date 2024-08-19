@@ -19,8 +19,6 @@ spec:
       containers:
       - name: {{ .Values.frontend.containerName }}
         image: {{ .Values.frontend.image }}
-        env:
-          - name: BACKEND_DNS
-            value: {{ .Values.frontend.backendDNS }}
-          - name: BACKEND_PORT
-            value: "{{ .Values.frontend.backendPort }}"
+        envFrom:
+          - configMapRef:
+              name: {{ .Values.frontend.name }}-configmap

@@ -13,5 +13,4 @@ spec:
       protocol: TCP
   selector:
     run: {{ .label }}
----
 {{- end }}
