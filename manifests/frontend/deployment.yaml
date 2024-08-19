@@ -19,8 +19,6 @@ spec:
       containers:
       - name: frontend
         image: ghcr.io/lilpernil/go-app-ui:latest
-        env:
-          - name: BACKEND_DNS
-            value: backend-svc
-          - name: BACKEND_PORT
-            value: '9000'
+        envFrom:
+          - configMapRef:
+              name: frontend-configmap

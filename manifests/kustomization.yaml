@@ -1,0 +1,10 @@
+resources:
+  - backend/deployment.yaml
+  - backend/svc.yaml
+  - backend/configmap.yaml
+  - frontend/deployment.yaml
+  - frontend/svc.yaml
+  - frontend/configmap.yaml
+  - redis/deployment.yaml
+  - redis/svc.yaml
+  - redis/pvc.yaml
