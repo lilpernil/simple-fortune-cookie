@@ -1,0 +1,17 @@
+{{- range .Values.services }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .service.name }}
+  labels:
+    run: {{ .label }}
+spec:
+  type: {{ .service.type }}
+  ports:
+    - port: {{ .service.port }}
+      targetPort: {{ .service.targetPort }}
+      protocol: TCP
+  selector:
+    run: {{ .label }}
+---
+{{- end }}

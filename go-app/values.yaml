@@ -1,0 +1,58 @@
+backend:
+  name: backend
+  replicas: 1
+  strategy:
+    maxSurge: 1
+    maxUnavailable: 0
+  label: backend
+  containerName: backend
+  image: ghcr.io/lilpernil/go-app:latest
+  redisDNS: redis
+
+frontend:
+  name: frontend
+  replicas: 1
+  strategy:
+    maxSurge: 1
+    maxUnavailable: 0
+  label: frontend
+  containerName: frontend
+  image: ghcr.io/lilpernil/go-app-ui:latest
+  backendDNS: backend-svc
+  backendPort: '9000'
+
+redis:
+  name: redis
+  replicas: 1
+  label: redis
+  containerName: redis
+  image: docker.io/library/redis:latest
+  containerPort: 6379
+  pvcName: redis
+  storageClassName: "gp2"
+  storage: 5Gi
+
+services:
+  - name: backend
+    label: backend
+    service:
+      name: backend-svc
+      port: 9000
+      targetPort: 9000
+      type: ClusterIP
+
+  - name: frontend
+    label: frontend
+    service:
+      name: frontend-svc
+      port: 8080
+      targetPort: 8080
+      type: NodePort
+
+  - name: redis
+    label: redis
+    service:
+      name: redis
+      port: 6379
+      targetPort: 6379
+      type: ClusterIP

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.frontend.name }}
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.frontend.strategy.maxSurge }}
+      maxUnavailable: {{ .Values.frontend.strategy.maxUnavailable }}
+  selector:
+    matchLabels:
+      run: {{ .Values.frontend.label }}
+  template:
+    metadata:
+      labels:
+        run: {{ .Values.frontend.label }}
+    spec:
+      containers:
+      - name: {{ .Values.frontend.containerName }}
+        image: {{ .Values.frontend.image }}
+        env:
+          - name: BACKEND_DNS
+            value: {{ .Values.frontend.backendDNS }}
+          - name: BACKEND_PORT
+            value: "{{ .Values.frontend.backendPort }}"

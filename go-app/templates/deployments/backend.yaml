@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backend.name }}
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.backend.strategy.maxSurge }}
+      maxUnavailable: {{ .Values.backend.strategy.maxUnavailable }}
+  selector:
+    matchLabels:
+      run: {{ .Values.backend.label }}
+  template:
+    metadata:
+      labels:
+        run: {{ .Values.backend.label }}
+    spec:
+      initContainers:
+        - name: wait-for-redis
+          image: busybox
+          command: ['sh', '-c', sleep 10]
+      containers:
+      - name: {{ .Values.backend.containerName }}
+        image: {{ .Values.backend.image }}
+        env:
+          - name: REDIS_DNS
+            value: {{ .Values.backend.redisDNS }}
